@@ -3,6 +3,13 @@
  "private": true,
  "version": "0.0.0",
  "type": "module",
+ "scripts": {
+  "build": "tsc --noEmit",
+  "typecheck": "tsc --noEmit"
+ },
+ "dependencies": {
+  "yjs": "^13.6.27"
+ },
  "exports": {
   ".": "./src/index.ts"
  }
