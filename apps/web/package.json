@@ -1,0 +1,21 @@
+{
+ "name": "@ghostboard/web",
+ "private": true,
+ "version": "0.0.0",
+ "type": "module",
+ "scripts": {
+  "dev": "vite",
+  "build": "tsc --noEmit && vite build",
+  "typecheck": "tsc --noEmit"
+ },
+ "dependencies": {
+  "@ghostboard/board-model": "0.0.0",
+  "@ghostboard/shared": "0.0.0",
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0"
+ },
+ "devDependencies": {
+  "typescript": "^5.4.5",
+  "vite": "^5.2.8"
+ }
+}

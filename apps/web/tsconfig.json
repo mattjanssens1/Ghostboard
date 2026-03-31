@@ -1,0 +1,12 @@
+{
+ "extends": "../../tsconfig.base.json",
+ "compilerOptions": {
+  "baseUrl": ".",
+  "paths": {
+   "@ghostboard/board-model": ["../../packages/board-model/src/index.ts"],
+   "@ghostboard/shared": ["../../packages/shared/src/index.ts"]
+  },
+  "types": ["vite/client"]
+ },
+ "include": ["src", "vite.config.ts"]
+}
