@@ -1,7 +1,18 @@
 import { Excalidraw } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
+import type { ComponentProps } from "react";
 
-export function GhostboardCanvas() {
+type ExcalidrawProps = ComponentProps<typeof Excalidraw>;
+
+export type GhostboardCanvasProps = {
+ initialData?: ExcalidrawProps["initialData"];
+ onChange?: ExcalidrawProps["onChange"];
+};
+
+export function GhostboardCanvas({
+ initialData,
+ onChange
+}: GhostboardCanvasProps) {
  return (
   <div
    style={{
@@ -10,11 +21,14 @@ export function GhostboardCanvas() {
    }}
   >
    <Excalidraw
-    initialData={{
-     appState: {
-      viewBackgroundColor: "#0f172a"
+    initialData={
+     initialData ?? {
+      appState: {
+       viewBackgroundColor: "#0f172a"
+      }
      }
-    }}
+    }
+    onChange={onChange}
    />
   </div>
  );

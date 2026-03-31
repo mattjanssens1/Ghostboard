@@ -12,6 +12,7 @@
   "@excalidraw/excalidraw": "^0.18.0",
   "@ghostboard/board-model": "0.0.0",
   "@ghostboard/board-ui": "0.0.0",
+  "@ghostboard/storage": "0.0.0",
   "@ghostboard/shared": "0.0.0",
   "react": "^18.2.0",
   "react-dom": "^18.2.0"
