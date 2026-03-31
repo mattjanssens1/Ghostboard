@@ -2,7 +2,12 @@ import { GhostboardCanvas } from "@ghostboard/board-ui";
 import { openLocalBoardSession, type LocalBoardSession } from "@ghostboard/storage";
 import { useEffect, useState } from "react";
 
-import { createInitialSceneFromBoard, persistSceneToBoard } from "./boardScene";
+import {
+ createInitialSceneFromBoard,
+ persistSceneToBoard,
+ type SceneElementsSnapshot,
+ type SceneFilesSnapshot
+} from "./boardScene";
 
 export default function App() {
  const [session, setSession] = useState<LocalBoardSession | null>(null);
@@ -56,7 +61,7 @@ export default function App() {
  return (
   <GhostboardCanvas
    initialData={createInitialSceneFromBoard(session.doc)}
-   onChange={(elements, _appState, files) => {
+   onChange={(elements: SceneElementsSnapshot, _appState: unknown, files?: SceneFilesSnapshot) => {
     persistSceneToBoard(session.doc, elements, files);
    }}
   />

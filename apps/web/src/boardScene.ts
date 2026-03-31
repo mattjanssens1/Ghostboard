@@ -9,9 +9,12 @@ import {
 } from "@ghostboard/board-model";
 import type { GhostboardCanvasProps } from "@ghostboard/board-ui";
 
-type CanvasOnChange = NonNullable<GhostboardCanvasProps["onChange"]>;
-type SceneElements = Parameters<CanvasOnChange>[0];
-type SceneFiles = NonNullable<Parameters<CanvasOnChange>[2]>;
+export type SceneElementSnapshot = {
+ id: string;
+} & Record<string, unknown>;
+
+export type SceneElementsSnapshot = readonly SceneElementSnapshot[];
+export type SceneFilesSnapshot = Record<string, Record<string, unknown>>;
 
 export function createInitialSceneFromBoard(
  doc: BoardDocument
@@ -19,7 +22,7 @@ export function createInitialSceneFromBoard(
  const elementsMap = getElementsMap(doc);
  const orderedIds = getOrderArray(doc).toArray();
  const assetsMap = getAssetsMap(doc);
- const orderedElements: SceneElements = [];
+ const orderedElements: SceneElementSnapshot[] = [];
  const seenIds = new Set<string>();
 
  for (const elementId of orderedIds) {
@@ -29,7 +32,7 @@ export function createInitialSceneFromBoard(
    continue;
   }
 
-  orderedElements.push(element as SceneElements[number]);
+  orderedElements.push(element as SceneElementSnapshot);
   seenIds.add(elementId);
  }
 
@@ -38,13 +41,13 @@ export function createInitialSceneFromBoard(
    continue;
   }
 
-  orderedElements.push(element as SceneElements[number]);
+  orderedElements.push(element as SceneElementSnapshot);
  }
 
- const files: SceneFiles = {};
+ const files: SceneFilesSnapshot = {};
 
  for (const [assetId, asset] of assetsMap.entries()) {
-  files[assetId] = asset as SceneFiles[string];
+  files[assetId] = asset as Record<string, unknown>;
  }
 
  return {
@@ -58,8 +61,8 @@ export function createInitialSceneFromBoard(
 
 export function persistSceneToBoard(
  doc: BoardDocument,
- elements: SceneElements,
- files?: SceneFiles
+ elements: SceneElementsSnapshot,
+ files?: SceneFilesSnapshot
 ): void {
  const elementsMap = getElementsMap(doc);
  const orderArray = getOrderArray(doc);
@@ -73,7 +76,7 @@ export function persistSceneToBoard(
    elementsMap.set(element.id, element as BoardElementRecord);
   }
 
-  for (const existingElementId of Array.from(elementsMap.keys())) {
+  for (const existingElementId of Array.from(elementsMap.keys()) as string[]) {
    if (!nextElementIds.has(existingElementId)) {
     elementsMap.delete(existingElementId);
    }
@@ -92,7 +95,7 @@ export function persistSceneToBoard(
    assetsMap.set(fileId, file as BoardAssetRecord);
   }
 
-  for (const existingFileId of Array.from(assetsMap.keys())) {
+  for (const existingFileId of Array.from(assetsMap.keys()) as string[]) {
    if (!nextFileIds.has(existingFileId)) {
     assetsMap.delete(existingFileId);
    }
